@@ -9,7 +9,7 @@ public class LibraryManagement {
     }
 
     private void run() {
-        Scanner scanner = new Scanner(System.in); 
+        Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
         while (running) {
@@ -49,8 +49,12 @@ public class LibraryManagement {
                     
                     scanner.nextLine();
 
-                    Book newBook = new Book(id, title);
-                    library.addBook(newBook);
+                    try {
+                    	library.addBook(new Book(id, title));
+                    } catch (Exception e) {
+
+                    	System.out.println("Invalid ID");
+                    } 
                     System.out.println("Book added to library successfully.");
                     break;
                 case 3:

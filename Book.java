@@ -3,7 +3,11 @@ public class Book {
     private String title;
     private boolean available;
 
-    public Book(int id, String title) {
+    public Book(int id, String title) throws Exception {
+    	if(!isValidId(id)) {
+    		throw new Exception("Invalid Book ID");
+    	}
+    	
         this.id = id;
         this.title = title;
         this.available = true;
