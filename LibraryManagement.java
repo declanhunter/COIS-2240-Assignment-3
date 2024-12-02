@@ -51,11 +51,13 @@ public class LibraryManagement {
 
                     try {
                     	library.addBook(new Book(id, title));
+                        System.out.println("Book added to library successfully.");
+                    	
                     } catch (Exception e) {
-
-                    	System.out.println("Invalid ID");
+                    	System.out.println("Invalid Book ID");
+                    	
                     } 
-                    System.out.println("Book added to library successfully.");
+                    
                     break;
                 case 3:
                 	System.out.println("\n--- Available Members ---");
