@@ -2,6 +2,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.lang.reflect.*;
 
 class LibaryManagementTest {
 	
@@ -67,5 +68,20 @@ class LibaryManagementTest {
 		
 	}
 	
-	
+    @Test 
+    public void testSingletonTransaction() throws Exception {
+    	Constructor<Transaction> constructor = Transaction.class.getDeclaredConstructor();
+    	
+    	int modifiers = constructor.getModifiers();
+    	assertTrue(Modifier.isPrivate(modifiers), "Constructer should be private");
+    	
+    	constructor.setAccessible(true);
+    		
+    	Transaction newInt = constructor.newInstance();
+    	
+    	Transaction intOne = Transaction.getTransaction();
+    	Transaction intTwo = Transaction.getTransaction();
+    	assertSame(intOne, intTwo, "should enforce singleton behaviour");
+    	assertNotSame(intOne, newInt, "other instance should not affect singleton one");
+    }
 }
