@@ -58,12 +58,10 @@ public class Transaction {
     public void saveTransaction(String transactionDetails) {
     	File f = new File("transactions.txt");
     	
-    	try {
+    	try(BufferedWriter writer = new BufferedWriter(new FileWriter(f, true))) {
+    		writer.write(transactionDetails);
+    		writer.newLine();
     		
-			ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(f));
-			os.writeObject(transactionDetails);
-			os.flush();
-			os.close();
 		} catch (FileNotFoundException e) {
 			
 			e.printStackTrace();

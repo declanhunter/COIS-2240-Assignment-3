@@ -1,2 +1,5 @@
-aaaaaaaaa
-bbbbbbbbb
+2024-12-02 10:37:25 - Borrowing: George borrowed Programming
+2024-12-02 10:37:32 - Borrowing: George borrowed Math
+2024-12-02 10:37:39 - Borrowing: Anne borrowed AI
+2024-12-02 10:37:46 - Returning: George returned Math
+2024-12-02 10:37:57 - Borrowing: Anne borrowed Math
