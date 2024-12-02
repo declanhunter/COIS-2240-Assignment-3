@@ -1,15 +1,34 @@
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Transaction {
+	private static Transaction instance;
+	
+	private Transaction() {
+		
+	}
+	
+	static {
+		instance = new Transaction();
+	}
+	
+	public static Transaction getTransaction() {
+	
+		return instance;
+	}
 
     // Perform the borrowing of a book
-    public static boolean borrowBook(Book book, Member member) {
+    public boolean borrowBook(Book book, Member member) {
         if (book.isAvailable()) {
             book.borrowBook();
             member.borrowBook(book); 
             String transactionDetails = getCurrentDateTime() + " - Borrowing: " + member.getName() + " borrowed " + book.getTitle();
             System.out.println(transactionDetails);
+            saveTransaction(transactionDetails);
             return true;
         } else {
             System.out.println("The book is not available.");
@@ -18,11 +37,12 @@ public class Transaction {
     }
 
     // Perform the returning of a book
-    public static void returnBook(Book book, Member member) {
+    public void returnBook(Book book, Member member) {
         if (member.getBorrowedBooks().contains(book)) {
             member.returnBook(book);
             book.returnBook();
             String transactionDetails = getCurrentDateTime() + " - Returning: " + member.getName() + " returned " + book.getTitle();
+            saveTransaction(transactionDetails);
             System.out.println(transactionDetails);
         } else {
             System.out.println("This book was not borrowed by the member.");
@@ -30,8 +50,45 @@ public class Transaction {
     }
 
     // Get the current date and time in a readable format
-    private static String getCurrentDateTime() {
+    private String getCurrentDateTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(new Date());
+    }
+    
+    public void saveTransaction(String transactionDetails) {
+    	File f = new File("transactions.txt");
+    	
+    	try {
+    		
+			ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(f));
+			os.writeObject(transactionDetails);
+			os.flush();
+			os.close();
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+	
+			e.printStackTrace();
+		}
+    	
+    }
+    
+    public void displayTransactionHistory() {
+		String file = "./transactions.txt";
+		
+		try {
+			List<String> lines = Files.readAllLines(Paths.get(file));
+					
+			for(String line : lines) {
+				System.out.print(line);
+				System.out.print("\n");
+				
+			}
+		} catch(IOException e) {
+			e.printStackTrace();
+			
+		}
+    	
     }
 }
